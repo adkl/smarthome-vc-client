@@ -15,8 +15,8 @@ public class TaskProcessor {
         try {
             String taskSpec = (String) taskData.get("taskSpec");
             if (taskSpec.equals("onOff")) {
-                OnOffTask onOffTask = (OnOffTask) Utils.parseHashMapToObject(taskData, OnOffTask.class);
-                processOnOffTask(onOffTask);
+                OnOffTask onOffTask = (OnOffTask) Utils.parseHashMapToObject((HashMap) taskData.get("payload"), OnOffTask.class);
+                return processOnOffTask(onOffTask);
             }
             else if (taskSpec.equals("set")) {
                 SetTask setTask = (SetTask) Utils.parseHashMapToObject(taskData, SetTask.class);
@@ -28,7 +28,7 @@ public class TaskProcessor {
         return null;
     }
 
-    private static void processOnOffTask(OnOffTask task) {
+    private static Object processOnOffTask(OnOffTask task) {
         if (task.getWhatToToggle().equals("windows")) {
             if (task.getToggle()) {
                 Windows.open();
@@ -45,5 +45,8 @@ public class TaskProcessor {
                 AirConditioner.switchOff();
             }
         }
+        return new Object() {
+            public boolean success = true;
+        };
     }
 }
