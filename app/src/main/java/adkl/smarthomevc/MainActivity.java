@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
     protected void attachFirebaseDBListener() {
         // listen for updates on ref "tasks"
         this.db = FirebaseDatabase.getInstance();
-        final DatabaseReference tasksReference = db.getReference("users/user-id-1234/tasks");
+        final DatabaseReference tasksReference = db.getReference(String.format("users/%s/tasks", UserService.getUserId()));
         tasksReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot task, String s) {
@@ -61,7 +61,10 @@ public class MainActivity extends Activity {
                 // process a task
                 Object completedTaskPayload = TaskProcessor.processTask(task);
                 tasksReference.child(task.getKey()).removeValue();
-                final DatabaseReference completedTasksRef = db.getReference(String.format("users/user-id-1234/completed-tasks/%s", task.getKey()));
+                final DatabaseReference completedTasksRef = db.getReference(
+                        String.format("users/%s/completed-tasks/%s",
+                                UserService.getUserId(),
+                                task.getKey()));
                 completedTasksRef.setValue(completedTaskPayload);
             }
             @Override
@@ -77,8 +80,8 @@ public class MainActivity extends Activity {
     }
 
     protected void attachLiveFirebaseDBUploader() {
-        final DatabaseReference temperatureRef = db.getReference("users/user-id-1234/temperature");
-        final DatabaseReference humidityRef = db.getReference("users/user-id-1234/humidity");
+        final DatabaseReference temperatureRef = db.getReference(String.format("users/%s/temperature", UserService.getUserId()));
+        final DatabaseReference humidityRef = db.getReference(String.format("users/%s/humidity", UserService.getUserId()));
         final SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorManager.registerDynamicSensorCallback(new SensorManager.DynamicSensorCallback() {
             @Override
