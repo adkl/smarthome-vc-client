@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 
+import adkl.smarthomevc.smarthome.RainbowHatUtils;
+
 /**
  * Skeleton of an Android Things activity.
  * <p>
@@ -46,6 +48,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RainbowHatUtils.initializeComponents();
         attachFirebaseDBListener();
         attachLiveFirebaseDBUploader();
     }
@@ -127,5 +130,11 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             Log.e("sensors", "Error configuring sensor", e);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        RainbowHatUtils.disposeComponents();
+        super.onDestroy();
     }
 }

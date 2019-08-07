@@ -1,5 +1,7 @@
 package adkl.smarthomevc.smarthome;
 
+import com.google.android.things.contrib.driver.rainbowhat.RainbowHat;
+
 public class Windows {
     private static boolean open = false;
 
@@ -9,7 +11,7 @@ public class Windows {
         }
         else {
             open = true;
-            // switch on the LED
+            RainbowHatUtils.redLEDOn();
         }
     }
 
@@ -19,7 +21,7 @@ public class Windows {
         }
         else {
             open = false;
-            // switch off the LED
+            RainbowHatUtils.redLEDOff();
         }
     }
 

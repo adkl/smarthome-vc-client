@@ -14,6 +14,7 @@ public class AirConditioner {
         }
         else {
             isOn = true;
+            RainbowHatUtils.display(currentSet);
         }
     }
 
@@ -23,6 +24,14 @@ public class AirConditioner {
         }
         else {
             isOn = false;
+            RainbowHatUtils.display("OFF");
+        }
+    }
+
+    public static void set(float value) {
+        currentSet = value;
+        if (AirConditioner.isOn()) {
+            RainbowHatUtils.display(value);
         }
     }
 }

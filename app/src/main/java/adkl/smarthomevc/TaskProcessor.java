@@ -19,13 +19,24 @@ public class TaskProcessor {
                 return processOnOffTask(onOffTask);
             }
             else if (taskSpec.equals("set")) {
-                SetTask setTask = (SetTask) Utils.parseHashMapToObject(taskData, SetTask.class);
+                SetTask setTask = (SetTask) Utils.parseHashMapToObject((HashMap) taskData.get("payload"), SetTask.class);
+                return processSetTask(setTask);
             }
         }
         catch (NullPointerException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static Object processSetTask(SetTask task) {
+        if (task.getWhatToSet().equals("climate")) {
+            AirConditioner.switchOn();
+            AirConditioner.set(task.getValue());
+        }
+        return new Object() {
+            public boolean success = true;
+        };
     }
 
     private static Object processOnOffTask(OnOffTask task) {
@@ -37,7 +48,7 @@ public class TaskProcessor {
                 Windows.close();
             }
         }
-        else if (task.getWhatToToggle().equals("air-conditioner")) {
+        else if (task.getWhatToToggle().equals("climate")) {
             if (task.getToggle()) {
                 AirConditioner.switchOn();
             }
