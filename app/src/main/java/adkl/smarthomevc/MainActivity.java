@@ -19,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 
+import adkl.smarthomevc.smarthome.AirConditioner;
 import adkl.smarthomevc.smarthome.RainbowHatUtils;
+import adkl.smarthomevc.smarthome.Windows;
 
 /**
  * Skeleton of an Android Things activity.
@@ -49,6 +51,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RainbowHatUtils.initializeComponents();
+
+        Windows.open();
+        AirConditioner.switchOff();
+
         attachFirebaseDBListener();
         attachLiveFirebaseDBUploader();
     }

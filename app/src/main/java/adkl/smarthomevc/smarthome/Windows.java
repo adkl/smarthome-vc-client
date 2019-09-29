@@ -12,6 +12,7 @@ public class Windows {
         else {
             open = true;
             RainbowHatUtils.redLEDOn();
+            AirConditioner.switchOff();
         }
     }
 

@@ -30,7 +30,7 @@ public class TaskProcessor {
     }
 
     private static Object processSetTask(SetTask task) {
-        if (task.getWhatToSet().equals("climate")) {
+        if (task.getWhatToSet().toLowerCase().equals("climate")) {
             AirConditioner.switchOn();
             AirConditioner.set(task.getValue());
         }
