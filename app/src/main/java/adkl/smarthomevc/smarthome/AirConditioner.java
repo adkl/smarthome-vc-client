@@ -1,5 +1,10 @@
 package adkl.smarthomevc.smarthome;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import adkl.smarthomevc.UserService;
+
 public class AirConditioner {
     private static float currentSet = 20f;
     private static boolean isOn = false;
@@ -27,6 +32,9 @@ public class AirConditioner {
         else {
             isOn = false;
         }
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference climateRef = db.getReference(String.format("users/%s/air-condition-status", UserService.getUserId()));
+        climateRef.setValue(false);
         RainbowHatUtils.display("OFF");
     }
 

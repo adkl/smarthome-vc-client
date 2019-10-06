@@ -53,6 +53,10 @@ public class MainActivity extends Activity {
         RainbowHatUtils.initializeComponents();
 
         Windows.open();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference windowsRef = db.getReference(String.format("users/%s/windows", UserService.getUserId()));
+        windowsRef.setValue(true);
+
         AirConditioner.switchOff();
 
         attachFirebaseDBListener();
@@ -101,9 +105,10 @@ public class MainActivity extends Activity {
                             new SensorEventListener() {
                                 @Override
                                 public void onSensorChanged(SensorEvent event) {
-                                    float roundedTemperature = Float.parseFloat(String.format("%.1f", event.values[0]));
+                                    String roundedTemperatureStr = String.format("%.1f", event.values[0]);
+                                    float roundedTemperature = Float.parseFloat(roundedTemperatureStr);
                                     if (Math.abs(currentTemperature - roundedTemperature) > TEMPERATURE_DEVIATION) {
-                                        temperatureRef.setValue(roundedTemperature);
+                                        temperatureRef.setValue(roundedTemperatureStr);
                                         currentTemperature = roundedTemperature;
                                     }
                                     Log.i("temperature-sensor", "sensor changed: " + roundedTemperature);
